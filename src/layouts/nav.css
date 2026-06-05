@@ -1,0 +1,69 @@
+nav {
+  width: 97%;
+  margin: 10px auto;
+  box-sizing: border-box;
+  box-shadow: var(--shadow);
+}
+
+nav > div:first-child > p {
+  font-weight: 600;
+}
+
+nav > div:first-child > p > span {
+  position: relative;
+}
+
+nav > div:first-child > p > span::after {
+  position: absolute;
+  top: -10px;
+  content: url(../assets/icons/logo-small.png);
+  width: 26px;
+  height: 26px;
+}
+
+nav > div:first-child > p > span {
+  color: var(--accent-bg);
+}
+
+@media screen and (max-width: 480px) {
+  nav {
+    padding: 30px 35px;
+    justify-content: space-between;
+  }
+
+  nav > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 100%;
+  }
+
+  nav > div:nth-of-type(2) {
+    display: none;
+  }
+
+  nav.opened > div:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 40px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 35px;
+  }
+
+  nav > div:first-child > p {
+    cursor: pointer;
+  }
+
+  nav > div:first-child > button {
+    display: none !important;
+  }
+}
