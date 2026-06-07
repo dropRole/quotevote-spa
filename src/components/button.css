@@ -13,7 +13,12 @@ button.btn.login {
   color: var(--cta-bg);
 }
 
-button.btn.login.w-100 {
+button.btn.signup {
+  background-color: var(--cta-bg);
+  color: #fff;
+}
+
+button.btn.w-100 {
   width: 100%;
 }
 

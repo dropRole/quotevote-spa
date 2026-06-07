@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import "./signup.css";
 import Nav from "../layouts/Nav";
+import SignupForm from "../components/SignupForm";
 
 const Signup: FC = () => {
   return (
     <>
       <Nav />
+      <SignupForm />
     </>
   );
 };

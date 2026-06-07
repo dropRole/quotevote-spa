@@ -1,0 +1,25 @@
+div.input-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  margin-top: 15px;
+}
+
+div.input-field > label {
+  font-size: 14px;
+}
+
+div.input-field > input {
+  padding: 10px 16px;
+  border: 2px solid var(--cta-bg);
+  border-radius: 32px;
+}
+
+div.input-field > input:focus {
+  outline: solid 2px var(--accent-bg);
+}
+
+div.input-field::after {
+  content: attr(data-error);
+  color: var(--cta-bg);
+}

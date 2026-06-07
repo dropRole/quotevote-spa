@@ -4,7 +4,7 @@ import "./button.css";
 type ButtonProps = {
   type: "button" | "submit";
   className: string;
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
 };
 
