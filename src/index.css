@@ -16,6 +16,8 @@
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   max-width: 100%;
   min-height: 100svh;
   box-sizing: border-box;
