@@ -1,4 +1,4 @@
-import { useRef, type FC } from "react";
+import { useContext, useRef, type FC } from "react";
 import "./signup-form.css";
 import defaultAvatar from "../assets/icons/default-avatar.png";
 import InputField, { type InputFieldProps } from "./InputField";
@@ -9,6 +9,7 @@ import { useForm, type Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupData } from "../api/quotevote/users.service";
 import UsersService from "../api/quotevote/users.service";
+import DialogContext from "../contexts/DialogContext";
 
 const signupSchema = z
   .object({
@@ -60,12 +61,19 @@ const SignupForm: FC = () => {
 
   const navigate = useNavigate();
 
+  const { alertDialog } = useContext(DialogContext);
+
   const usersService = useRef(new UsersService());
 
   const signup = async (data: SignupData) => {
     if (!usersService.current) return;
 
+    alertDialog?.setOpen(true);
+
     const result = await usersService.current.signup(data);
+
+    alertDialog?.setTitle("Sign up");
+    alertDialog?.setMessage(result.message ?? "Failed to sign up");
   };
 
   const inputFields: {

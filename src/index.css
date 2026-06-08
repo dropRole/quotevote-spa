@@ -54,3 +54,7 @@ h5 {
   font-family: "RalewayRegular";
   font-size: 24px;
 }
+
+.dialog * {
+  font-family: "RalewayRegular" !important;
+}

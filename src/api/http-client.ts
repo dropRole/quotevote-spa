@@ -25,10 +25,17 @@ export default abstract class HTTPClient {
       response = await axios.post(this.URL + endpoint, data, config);
     } catch (error) {
       if (error instanceof AxiosError)
-        return { status: error.status ?? 500, message: error.message };
+        return {
+          status: error.status ?? 500,
+          message: error?.response?.data?.message,
+        };
     }
 
-    if (response) return { status: response.status, data: response?.data };
+    if (response)
+      return {
+        status: response.status,
+        data: response?.data,
+      };
 
     return { status: 500, message: "Internal server error" };
   }
