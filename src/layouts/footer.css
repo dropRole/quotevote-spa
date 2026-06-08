@@ -1,0 +1,13 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 97%;
+  margin: auto auto 10px auto;
+  box-sizing: border-box;
+  padding: 16px 32px;
+  background-color: var(--cta-bg);
+  color: #fff;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+}
