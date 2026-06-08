@@ -1,0 +1,47 @@
+form#loginForm {
+  padding: 60px 30px;
+}
+
+form#loginForm > h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+form#loginForm > h4 > span {
+  color: var(--cta-bg);
+  text-align: center;
+}
+
+form#loginForm > p {
+  text-align: center;
+}
+
+form#loginForm > div.input-field:first-of-type {
+  margin-top: 30px;
+}
+
+form#loginForm > button {
+  margin-top: 15px;
+}
+
+form#loginForm > p:last-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+form#loginForm > p:last-child > span:nth-of-type(2) {
+  color: var(--cta-bg);
+}
+
+@media screen and (min-width: 1024px) {
+  form#loginForm {
+    margin: auto;
+    width: 420px;
+  }
+
+  form#loginForm > p:last-child > span:nth-of-type(2) {
+    cursor: pointer;
+  }
+}

@@ -25,4 +25,16 @@ export default class UsersService extends HTTPClient {
 
     return { success: 0, message };
   }
+
+  async login(credentials: Pick<SignupData, "username" | "pass">) {
+    const { status, message } = await this.post(
+      this.PATH + "/login",
+      credentials,
+      { withCredentials: true },
+    );
+
+    if (status === 201) return { success: 1, message: "Login was succesful" };
+
+    return { success: 0, message };
+  }
 }

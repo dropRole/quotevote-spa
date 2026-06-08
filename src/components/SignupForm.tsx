@@ -1,7 +1,7 @@
 import { useContext, useRef, type FC } from "react";
 import "./signup-form.css";
 import defaultAvatar from "../assets/icons/default-avatar.png";
-import InputField, { type InputFieldProps } from "./InputField";
+import InputField from "./InputField";
 import Button from "./Button";
 import { useNavigate } from "react-router";
 import z from "zod";

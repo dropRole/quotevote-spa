@@ -3,6 +3,7 @@ import "./App.css";
 import Signup from "./pages/Signup";
 import DialogContext from "./contexts/DialogContext";
 import { useState } from "react";
+import Login from "./pages/Login";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
@@ -24,6 +25,7 @@ function App() {
     >
       <Routes>
         <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </DialogContext.Provider>
   );
