@@ -1,0 +1,55 @@
+div.quote-card {
+  display: flex;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+div.quote-card > div:first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+  min-width: 60px;
+}
+
+div.quote-card > div:first-child > img:first-child {
+  rotate: z 180deg;
+}
+
+div.quote-card > div:nth-of-type(2) {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 150px;
+  box-sizing: border-box;
+  padding: 26px 32px 26px 0;
+}
+
+div.quote-card > div:nth-of-type(2) > p {
+  flex-grow: 1;
+}
+
+div.quote-card > div:nth-of-type(2) > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+div.quote-card > div:nth-of-type(2) > div > p {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  font-size: 14px;
+}
+
+div.quote-card > div:nth-of-type(2) > div > span {
+  font-size: 14px;
+}
+
+div.quote-card > div:nth-of-type(2) img {
+  width: 30px;
+  object-fit: cover;
+}

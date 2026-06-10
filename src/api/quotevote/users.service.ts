@@ -8,6 +8,14 @@ export type SignupData = {
   pass: string;
 };
 
+export type User = {
+  email: string;
+  name: string;
+  surname: string;
+  username: string;
+  avatar: string | null;
+};
+
 export default class UsersService extends HTTPClient {
   private PATH = "/auth";
 

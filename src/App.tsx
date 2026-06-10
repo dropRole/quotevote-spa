@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import DialogContext from "./contexts/DialogContext";
 import { useState } from "react";
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
@@ -24,6 +25,7 @@ function App() {
       }}
     >
       <Routes>
+        <Route index element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>
