@@ -22,7 +22,7 @@ nav > div:first-child > p > span::after {
 }
 
 nav > div:first-child > p > span {
-  color: var(--accent-bg);
+  color: var(--cta-bg);
 }
 
 @media screen and (max-width: 480px) {
