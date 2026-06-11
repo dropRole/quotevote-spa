@@ -32,6 +32,7 @@ section#hero
     flex-direction: column;
     row-gap: 90px;
     padding: 30px;
+    margin-top: 120px;
     margin-bottom: 30px;
   }
 
