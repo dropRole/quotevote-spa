@@ -1,6 +1,5 @@
 import { useContext, useRef, type FC } from "react";
 import "./login-form.css";
-import defaultAvatar from "../assets/icons/default-avatar.png";
 import InputField from "./InputField";
 import Button from "./Button";
 import { useNavigate } from "react-router";
@@ -48,10 +47,20 @@ const LoginForm: FC = () => {
 
     alertDialog?.setOpen(true);
 
-    const result = await usersService.current.login(data);
+    const { success, message } = await usersService.current.login(data);
 
     alertDialog?.setTitle("Login");
-    alertDialog?.setMessage(result.message ?? "Failed to login");
+    alertDialog?.setMessage(message ?? "Failed to login");
+
+    if (success) {
+      const timeoutId = setTimeout(() => {
+        localStorage.setItem("quotevote-session", "on");
+
+        navigate("/");
+
+        clearTimeout(timeoutId);
+      }, 3000);
+    }
   };
 
   const inputFields: {
