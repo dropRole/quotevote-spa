@@ -25,6 +25,27 @@ nav > div:first-child > p > span {
   color: var(--cta-bg);
 }
 
+nav > div:first-child > div,
+nav > div:nth-child(2) > div {
+  position: relative;
+  width: 16px;
+}
+
+nav > div:first-child > div > span,
+nav > div:nth-child(2) > div > span {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background-color: var(--cta-bg);
+  cursor: pointer;
+}
+
+nav > div:first-child > div > span:first-child,
+nav > div:nth-child(2) > div > span:first-child {
+  transform-origin: center;
+  rotate: 90deg;
+}
+
 @media screen and (max-width: 480px) {
   nav {
     position: absolute;
@@ -50,9 +71,44 @@ nav > div:first-child > p > span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 15px;
+    row-gap: 30px;
     width: 100%;
     padding-top: 40px;
+  }
+
+  nav > div:nth-child(2) > span {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  nav > div:nth-child(2) > span::after {
+    content: url(../assets/icons/arrow-down.png);
+    width: 16px;
+    height: 16px;
+    rotate: z -90deg;
+  }
+
+  nav > div:nth-child(2) > div:first-of-type {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    order: -1;
+    column-gap: 20px;
+    width: 100%;
+  }
+
+  nav > div:nth-child(2) > div:first-of-type::after {
+    content: attr(data-user-fullname);
+  }
+
+  nav > div:nth-child(2) > div:first-of-type > img {
+    width: 40px;
+    object-fit: cover;
+  }
+
+  nav > div:nth-child(2) > div:last-of-type {
+    display: none;
   }
 }
 
@@ -75,6 +131,27 @@ nav > div:first-child > p > span {
   nav > div:nth-of-type(2) {
     display: flex;
     flex-direction: row;
-    column-gap: 15px;
+    align-items: center;
+    column-gap: 20px;
+  }
+
+  nav > div:nth-of-type(2) > span {
+    color: var(--cta-bg);
+    cursor: pointer;
+  }
+
+  nav > div:nth-of-type(2) > div:first-of-type {
+    width: fit-content;
+  }
+
+  nav > div:nth-of-type(2) > div:first-of-type > img {
+    width: 40px;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+    border-radius: 50%;
+  }
+
+  nav > div:first-child > div {
+    display: none;
   }
 }
