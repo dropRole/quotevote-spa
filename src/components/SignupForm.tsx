@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupData } from "../api/quotevote/users.service";
 import UsersService from "../api/quotevote/users.service";
 import DialogContext from "../contexts/DialogContext";
+import type { InputFields } from "../utils/types";
 
 const signupSchema = z
   .object({
@@ -76,11 +77,7 @@ const SignupForm: FC = () => {
     alertDialog?.setMessage(result.message ?? "Failed to sign up");
   };
 
-  const inputFields: {
-    label: string;
-    type: "text" | "password";
-    name: string;
-  }[] = [
+  const inputFields: InputFields<SignupValidationSchema> = [
     {
       label: "E-mail",
       type: "text",
