@@ -79,7 +79,7 @@ const SignupForm: FC = () => {
   const inputFields: {
     label: string;
     type: "text" | "password";
-    name: string;
+    name: Path<SignupValidationSchema>;
   }[] = [
     {
       label: "E-mail",
