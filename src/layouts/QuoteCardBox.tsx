@@ -25,26 +25,6 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
 
   const navigate = useNavigate();
 
-  const getFilteredQuotes = async () => {
-    const result = await quotesService.current.getQuotes(
-      searchFor,
-      "",
-      quoteLimit,
-    );
-
-    if (result instanceof Array) {
-      const columns: typeof boxQuoteColumns = { 0: [], 1: [], 2: [] };
-
-      for (let i = 0, j = 0; i < result.length; i++, j++) {
-        if (j === 3) j = 0;
-
-        columns[j as unknown as keyof typeof columns].push(result[i]);
-      }
-
-      setBoxQuoteColumns(columns);
-    }
-  };
-
   const renderQuoteColumns = () => {
     return Object.keys(boxQuoteColumns).map((key) => (
       <div key={key} className="quote-box-column">
@@ -74,6 +54,26 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
   };
 
   useEffect(() => {
+    const getFilteredQuotes = async () => {
+      const result = await quotesService.current.getQuotes(
+        searchFor,
+        "",
+        quoteLimit,
+      );
+
+      if (result instanceof Array) {
+        const columns: typeof boxQuoteColumns = { 0: [], 1: [], 2: [] };
+
+        for (let i = 0, j = 0; i < result.length; i++, j++) {
+          if (j === 3) j = 0;
+
+          columns[j as unknown as keyof typeof columns].push(result[i]);
+        }
+
+        setBoxQuoteColumns(columns);
+      }
+    };
+
     getFilteredQuotes();
   }, []);
 

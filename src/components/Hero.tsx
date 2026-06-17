@@ -13,13 +13,13 @@ const Hero: FC = () => {
 
   const navigate = useNavigate();
 
-  const getMostLikedQuotes = async () => {
-    const result = await quotesService.current.getQuotes("mostLiked", "", 3);
-
-    if (result instanceof Array) setMostLikedQuotes(result);
-  };
-
   useEffect(() => {
+    const getMostLikedQuotes = async () => {
+      const result = await quotesService.current.getQuotes("mostLiked", "", 3);
+
+      if (result instanceof Array) setMostLikedQuotes(result);
+    };
+
     getMostLikedQuotes();
   }, []);
 
