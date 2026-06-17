@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupData } from "../api/quotevote/users.service";
 import UsersService from "../api/quotevote/users.service";
 import DialogContext from "../contexts/DialogContext";
+import type { InputFields } from "../utils/types";
 
 const loginSchema = z.object({
   username: z
@@ -65,11 +66,7 @@ const LoginForm: FC = () => {
     }
   };
 
-  const inputFields: {
-    label: string;
-    type: "text" | "password";
-    name: string;
-  }[] = [
+  const inputFields: InputFields<LoginValidationSchema> = [
     {
       label: "Username",
       type: "text",
