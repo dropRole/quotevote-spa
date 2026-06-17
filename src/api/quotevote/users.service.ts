@@ -46,6 +46,18 @@ export default class UsersService extends HTTPClient {
     return { success: 0, message };
   }
 
+  async logout() {
+    const { status, message } = await this.post(
+      this.PATH + "/logout",
+      undefined,
+      { withCredentials: true },
+    );
+
+    if (status === 201) return { success: 1 };
+
+    return { success: 0, message };
+  }
+
   async getInfo() {
     const { status, message, data } = await this.get<User>(this.PATH + "/me", {
       withCredentials: true,

@@ -1,4 +1,4 @@
-import { useContext, useState, type FC, type JSX } from "react";
+import { useContext, useRef, useState, type FC, type JSX } from "react";
 import "./nav.css";
 import { useLocation, useNavigate } from "react-router";
 import Button from "../components/Button";
@@ -6,6 +6,7 @@ import Hamburger from "../components/Hamburger";
 import { UserContext } from "../contexts/UserContext";
 import { depictUserAvatar } from "../utils/functions";
 import DialogContext from "../contexts/DialogContext";
+import UsersService from "../api/quotevote/users.service";
 
 const Nav: FC = () => {
   const [opened, setOpened] = useState<boolean>(false);
@@ -19,6 +20,38 @@ const Nav: FC = () => {
   const navigate = useNavigate();
 
   const isLoggedInUser = localStorage.getItem("quotevote-session");
+
+  const usersService = useRef(new UsersService());
+
+  const logout = async () => {
+    if (
+      !userContext.user ||
+      !userContext.setUser ||
+      !dialogContext.alertDialog ||
+      !dialogContext.alertDialog.setTitle ||
+      !dialogContext.alertDialog.setMessage
+    )
+      return;
+
+    dialogContext?.alertDialog?.setOpen(true);
+
+    const { success, message } = await usersService.current.logout();
+
+    if (!success && message) {
+      dialogContext?.alertDialog?.setTitle("Logout");
+      dialogContext?.alertDialog?.setMessage(message);
+    }
+
+    if (success) {
+      userContext.setUser(undefined);
+
+      localStorage.removeItem("quotevote-session");
+
+      navigate("/login");
+
+      dialogContext?.alertDialog?.setOpen(false);
+    }
+  };
 
   const renderNavItems = () => {
     const items: JSX.Element[] = [];
@@ -53,7 +86,9 @@ const Nav: FC = () => {
         >
           Settings
         </span>,
-        <span key="logout-item">Logout</span>,
+        <span key="logout-item" onClick={() => logout()}>
+          Logout
+        </span>,
         <div
           key="avatar-item"
           data-user-fullname={`${userContext?.user?.name} ${userContext?.user?.surname}`}
