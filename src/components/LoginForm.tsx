@@ -1,6 +1,5 @@
 import { useContext, useRef, type FC } from "react";
 import "./login-form.css";
-import defaultAvatar from "../assets/icons/default-avatar.png";
 import InputField from "./InputField";
 import Button from "./Button";
 import { useNavigate } from "react-router";
@@ -57,7 +56,7 @@ const LoginForm: FC = () => {
   const inputFields: {
     label: string;
     type: "text" | "password";
-    name: string;
+    name: Path<LoginValidationSchema>;
   }[] = [
     {
       label: "Username",
