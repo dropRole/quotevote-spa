@@ -2,32 +2,21 @@ import { Route, Routes } from "react-router";
 import "./App.css";
 import Signup from "./pages/Signup";
 import DialogContext from "./contexts/DialogContext";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import UserContext from "./contexts/UserContext";
-import UsersService, { type User } from "./api/quotevote/users.service";
+import { UserContext, type LoggedInUser } from "./contexts/UserContext";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
   const [alertDialogTitle, setAlertDialogTitle] = useState("");
   const [alertDialogMessage, setAlertDialogMessage] = useState("");
 
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState<boolean>(false);
 
-  const usersService = useRef(new UsersService());
-
-  const getUserInfo = async () => {
-    const result = await usersService.current.getInfo();
-
-    if (result.data) setUser(result.data);
-  };
+  const [user, setUser] = useState<LoggedInUser | undefined>(undefined);
 
   const isLoggedInUser = localStorage.getItem("quotevote-session");
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   return (
     <DialogContext.Provider
@@ -40,9 +29,13 @@ function App() {
           message: alertDialogMessage,
           setMessage: setAlertDialogMessage,
         },
+        settingsDialog: {
+          open: settingsDialogOpen,
+          setOpen: setSettingsDialogOpen,
+        },
       }}
     >
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route index element={<Home />} />
           {!isLoggedInUser && <Route path="/signup" element={<Signup />} />}

@@ -4,8 +4,15 @@ import Nav from "../layouts/Nav";
 import Footer from "../layouts/Footer";
 import "./home.css";
 import QuoteCardBox from "../layouts/QuoteCardBox";
+import SettingsDialog from "../components/SettingsDialog";
+import AlertDialog from "../components/AlertDialog";
+import useUserInfo from "../hooks/useUserInfo";
 
 const Home: FC = () => {
+  const isLoggedInUser = localStorage.getItem("quotevote-session");
+
+  useUserInfo();
+
   return (
     <>
       <Nav />
@@ -19,6 +26,8 @@ const Home: FC = () => {
         subheadline="Login to see more most liked quotes"
         searchFor="mostLiked"
       />
+      {isLoggedInUser && <SettingsDialog />}
+      <AlertDialog />
       <Footer />
     </>
   );

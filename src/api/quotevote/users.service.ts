@@ -55,4 +55,59 @@ export default class UsersService extends HTTPClient {
 
     return { success: 0, message };
   }
+
+  async getAvatar(path: string) {
+    const { status, message, data } = await this.get<Blob>(
+      this.PATH + `/me/avatar?path=${path}`,
+      { responseType: "blob" },
+    );
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
+  async updateBasics(data: Omit<User, "username">) {
+    const { status, message } = await this.patch(
+      this.PATH + "/me/basics",
+      data,
+      {
+        withCredentials: true,
+      },
+    );
+
+    if (status === 200) return { success: 1, message: "Basics were updated" };
+
+    return { success: 0, message };
+  }
+
+  async updatePass(data: { currentPass: string; newPass: string }) {
+    const { status, message } = await this.patch(this.PATH + "/me/pass", data, {
+      withCredentials: true,
+    });
+
+    if (status === 200) return { success: 1, message: "Password was updated" };
+
+    return { success: 0, message };
+  }
+
+  async uploadAvatar(data: FileList) {
+    const formData = new FormData();
+    formData.append("avatar", data.avatar[0]);
+
+    const { status, message } = await this.patch(
+      this.PATH + "/me/avatar-upload",
+      formData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+
+    if (status === 200) return { success: 1, message: "Avatar was uploaded" };
+
+    return { success: 0, message };
+  }
 }

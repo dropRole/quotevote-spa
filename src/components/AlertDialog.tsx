@@ -16,8 +16,11 @@ const AlertDialog: FC = () => {
       open={alertDialog?.open ?? false}
       onClose={() => {
         alertDialog?.setOpen(false);
-        alertDialog?.setTitle("");
-        alertDialog?.setMessage("");
+
+        if (alertDialog && alertDialog.setTitle && alertDialog.setMessage) {
+          alertDialog?.setTitle("");
+          alertDialog?.setMessage("");
+        }
       }}
       className="dialog"
     >

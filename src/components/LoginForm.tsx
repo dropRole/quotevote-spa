@@ -49,8 +49,10 @@ const LoginForm: FC = () => {
 
     const { success, message } = await usersService.current.login(data);
 
-    alertDialog?.setTitle("Login");
-    alertDialog?.setMessage(message ?? "Failed to login");
+    if (alertDialog && alertDialog.setTitle && alertDialog.setMessage) {
+      alertDialog?.setTitle("Login");
+      alertDialog?.setMessage(message ?? "Failed to login");
+    }
 
     if (success) {
       const timeoutId = setTimeout(() => {

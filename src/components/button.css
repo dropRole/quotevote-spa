@@ -13,7 +13,8 @@ button.btn.login {
   color: var(--cta-bg);
 }
 
-button.btn.signup {
+button.btn.signup,
+button.btn-submit {
   background-color: var(--cta-bg);
   color: #fff;
 }

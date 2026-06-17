@@ -3,10 +3,10 @@ import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 export type InputFieldProps<T extends FieldValues> = {
   label: string;
-  type: "text" | "password";
-  name: string;
+  type: "text" | "password" | "file";
+  name: Path<T>;
   register: UseFormRegister<T>;
-  error: string;
+  error?: string;
 };
 
 const InputField = <T extends FieldValues>({
@@ -17,9 +17,19 @@ const InputField = <T extends FieldValues>({
   error,
 }: InputFieldProps<T>) => {
   return (
-    <div className="input-field" data-error={error}>
-      <label htmlFor={name}>{label}</label>
-      <input id={name} type={type} {...register(name as Path<T>)} />
+    <div className="input-field" {...(error && { "data-error": error })}>
+      <label
+        htmlFor={name}
+        {...(type === "file" && { className: "file-input-label" })}
+      >
+        {label}
+      </label>
+      <input
+        id={name}
+        type={type}
+        {...(type === "file" && { className: "file-input" })}
+        {...register(name as Path<T>)}
+      />
     </div>
   );
 };
