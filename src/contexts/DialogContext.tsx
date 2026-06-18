@@ -10,7 +10,7 @@ type DialogProps = {
 };
 
 type DialogContext = {
-  [key in "alertDialog" | "settingsDialog"]:
+  [key in "alertDialog" | "settingsDialog" | "quoteCreationDialog"]:
     | (Pick<DialogProps, "open" | "setOpen"> &
         Partial<Omit<DialogProps, "open" | "setOpen">>)
     | undefined;
@@ -19,6 +19,7 @@ type DialogContext = {
 const DialogContext = createContext<DialogContext>({
   alertDialog: undefined,
   settingsDialog: undefined,
+  quoteCreationDialog: undefined,
 });
 
 export default DialogContext;

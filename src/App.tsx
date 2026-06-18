@@ -14,6 +14,9 @@ function App() {
 
   const [settingsDialogOpen, setSettingsDialogOpen] = useState<boolean>(false);
 
+  const [quoteCreationDialogOpen, setQuoteCreationDialogOpen] =
+    useState<boolean>(false);
+
   const [user, setUser] = useState<LoggedInUser | undefined>(undefined);
 
   const isLoggedInUser = localStorage.getItem("quotevote-session");
@@ -32,6 +35,10 @@ function App() {
         settingsDialog: {
           open: settingsDialogOpen,
           setOpen: setSettingsDialogOpen,
+        },
+        quoteCreationDialog: {
+          open: quoteCreationDialogOpen,
+          setOpen: setQuoteCreationDialogOpen,
         },
       }}
     >

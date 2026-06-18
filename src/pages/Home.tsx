@@ -7,6 +7,7 @@ import QuoteCardBox from "../layouts/QuoteCardBox";
 import SettingsDialog from "../components/SettingsDialog";
 import AlertDialog from "../components/AlertDialog";
 import useUserInfo from "../hooks/useUserInfo";
+import QuoteCreationDialog from "../components/QuoteCreationDialog";
 
 const Home: FC = () => {
   const isLoggedInUser = localStorage.getItem("quotevote-session");
@@ -27,6 +28,7 @@ const Home: FC = () => {
         searchFor="mostLiked"
       />
       {isLoggedInUser && <SettingsDialog />}
+      {isLoggedInUser && <QuoteCreationDialog />}
       <AlertDialog />
       <Footer />
     </>

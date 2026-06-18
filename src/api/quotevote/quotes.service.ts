@@ -29,4 +29,16 @@ export default class QuotesService extends HTTPClient {
 
     if (status === 200) return data;
   }
+
+  async createQuote(content: string) {
+    const { status, message } = await this.post<Pick<Quote, "content">>(
+      this.PATH + "/me/myquote",
+      { content },
+      { withCredentials: true },
+    );
+
+    if (status === 201) return { success: 1, message: "Quote was posted" };
+
+    return { success: 0, message };
+  }
 }

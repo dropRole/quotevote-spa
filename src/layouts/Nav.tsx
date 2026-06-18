@@ -97,7 +97,10 @@ const Nav: FC = () => {
             userContext.user &&
             depictUserAvatar(userContext?.user?.avatar)}
         </div>,
-        <div key="plus-item">
+        <div
+          key="plus-item"
+          onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}
+        >
           <span></span>
           <span></span>
         </div>,
@@ -114,7 +117,7 @@ const Nav: FC = () => {
           Quote<span>Vote</span>
         </p>
         {isLoggedInUser && (
-          <div>
+          <div onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}>
             <span></span>
             <span></span>
           </div>
