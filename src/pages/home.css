@@ -7,9 +7,32 @@ h2 > span {
   color: var(--cta-bg);
 }
 
+div#randomQuote > h5 {
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--cta-bg);
+}
+
+div#randomQuote > p {
+  margin-bottom: 45px;
+  text-align: center;
+}
+
 @media screen and (max-width: 480px) {
+  div#randomQuote {
+    max-width: 400px;
+    margin: 120px auto 90px auto;
+  }
+
   h2 {
     margin-top: 40px;
     font-size: 35px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  div#randomQuote {
+    max-width: 400px;
+    margin: 90px auto;
   }
 }

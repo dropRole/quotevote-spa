@@ -30,6 +30,17 @@ export default class QuotesService extends HTTPClient {
     if (status === 200) return data;
   }
 
+  async getRandomQuote() {
+    const { status, data, message } = await this.get<Quote>(
+      this.PATH + "/rand/one",
+      { withCredentials: true },
+    );
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
   async createQuote(content: string) {
     const { status, message } = await this.post<Pick<Quote, "content">>(
       this.PATH + "/me/myquote",

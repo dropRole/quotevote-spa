@@ -1,8 +1,9 @@
-import type { FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import "./quote-card.css";
 import arrowDown from "../assets/icons/arrow-down.png";
 import defaultAvatar from "../assets/icons/default-avatar.png";
 import moment from "moment";
+import UsersService from "../api/quotevote/users.service";
 
 type QuoteCardProps = {
   quote: string;
@@ -22,6 +23,22 @@ const QuoteCard: FC<QuoteCardProps> = ({
   updated,
   totalVotes,
 }) => {
+  const [userAvatar, setUserAvatar] = useState<Blob | string>(defaultAvatar);
+
+  const usersService = useRef(new UsersService());
+
+  useEffect(() => {
+    if (!avatar) return;
+
+    const streamAvatar = async () => {
+      const { success, data } = await usersService.current.getAvatar(avatar);
+
+      if (success && data) setUserAvatar(data);
+    };
+
+    streamAvatar();
+  }, []);
+
   return (
     <div className="quote-card">
       <div>
@@ -33,7 +50,13 @@ const QuoteCard: FC<QuoteCardProps> = ({
         <p>{quote}</p>
         <div>
           <p>
-            <img src={avatar ?? defaultAvatar} />
+            <img
+              src={
+                userAvatar instanceof Blob
+                  ? URL.createObjectURL(userAvatar)
+                  : userAvatar
+              }
+            />
             <span>{fullname}</span>
           </p>
           <span>
