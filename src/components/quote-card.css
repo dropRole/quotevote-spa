@@ -14,7 +14,18 @@ div.quote-card > div:first-child {
   min-width: 60px;
 }
 
-div.quote-card > div:first-child > img:first-child {
+div.quote-card > div:first-child > img:first-child:not(.up-vote) {
+  rotate: z 180deg;
+}
+
+img.up-vote,
+img.down-vote {
+  width: 14px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+img.down-vote {
   rotate: z 180deg;
 }
 

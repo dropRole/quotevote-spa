@@ -11,18 +11,17 @@ import QuoteCreationDialog from "../components/QuoteCreationDialog";
 import QuotesService, { type Quote } from "../api/quotevote/quotes.service";
 import QuoteCard from "../components/QuoteCard";
 import QuoteCardSkeleton from "../components/QuoteCardSkeleton";
+import { isUserLoggedIn } from "../utils/functions";
 
 const Home: FC = () => {
   const [randomQuote, setRandomQuote] = useState<Quote | undefined>(undefined);
 
   useUserInfo();
 
-  const isLoggedInUser = localStorage.getItem("quotevote-session");
-
   const quotesService = useRef(new QuotesService());
 
   useEffect(() => {
-    if (!isLoggedInUser) return;
+    if (!isUserLoggedIn) return;
 
     const fetchRandomQuote = async () => {
       const { success, data } = await quotesService.current.getRandomQuote();
@@ -36,7 +35,7 @@ const Home: FC = () => {
   return (
     <>
       <Nav />
-      {!isLoggedInUser && (
+      {!isUserLoggedIn() && (
         <>
           <Hero />
           <h2>
@@ -45,12 +44,13 @@ const Home: FC = () => {
           </h2>
         </>
       )}
-      {isLoggedInUser && (
+      {isUserLoggedIn() && (
         <div id="randomQuote">
           <h5>Quote of the day</h5>
           <p>Quote of the day is randomly chosen quote.</p>
           {randomQuote ? (
             <QuoteCard
+              id={randomQuote.id}
               quote={randomQuote.content}
               author={{
                 fullname: `${randomQuote.name} ${randomQuote.surname}`,
@@ -59,6 +59,7 @@ const Home: FC = () => {
               written={randomQuote.written}
               updated={randomQuote.updated}
               totalVotes={randomQuote.totalVotes}
+              votedOn={randomQuote.votedOn}
             />
           ) : (
             <QuoteCardSkeleton />
@@ -70,8 +71,15 @@ const Home: FC = () => {
         subheadline="Login to see more most liked quotes"
         searchFor="mostLiked"
       />
-      {isLoggedInUser && <SettingsDialog />}
-      {isLoggedInUser && <QuoteCreationDialog />}
+      {isUserLoggedIn() && (
+        <QuoteCardBox
+          headline="Most recent quotes"
+          subheadline="Recent quotes updates as soon as user adds a new quote."
+          searchFor="recent"
+        />
+      )}
+      {isUserLoggedIn() && <SettingsDialog />}
+      {isUserLoggedIn() && <QuoteCreationDialog />}
       <AlertDialog />
       <Footer />
     </>

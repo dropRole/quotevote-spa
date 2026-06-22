@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import Button from "../components/Button";
 import Hamburger from "../components/Hamburger";
 import { UserContext } from "../contexts/UserContext";
-import { depictUserAvatar } from "../utils/functions";
+import { depictUserAvatar, isUserLoggedIn } from "../utils/functions";
 import DialogContext from "../contexts/DialogContext";
 import UsersService from "../api/quotevote/users.service";
 
@@ -18,8 +18,6 @@ const Nav: FC = () => {
   const dialogContext = useContext(DialogContext);
 
   const navigate = useNavigate();
-
-  const isLoggedInUser = localStorage.getItem("quotevote-session");
 
   const usersService = useRef(new UsersService());
 
@@ -56,7 +54,7 @@ const Nav: FC = () => {
   const renderNavItems = () => {
     const items: JSX.Element[] = [];
 
-    if (location.pathname !== "/login" && !isLoggedInUser)
+    if (location.pathname !== "/login" && !isUserLoggedIn())
       items.push(
         <Button
           key="loginbtn"
@@ -67,7 +65,7 @@ const Nav: FC = () => {
         />,
       );
 
-    if (location.pathname !== "/signup" && !isLoggedInUser)
+    if (location.pathname !== "/signup" && !isUserLoggedIn())
       items.push(
         <Button
           key="signupbtn"
@@ -78,7 +76,7 @@ const Nav: FC = () => {
         />,
       );
 
-    if (location.pathname === "/" && isLoggedInUser)
+    if (location.pathname === "/" && isUserLoggedIn())
       items.push([
         <span
           key="settings-item"
@@ -116,7 +114,7 @@ const Nav: FC = () => {
         <p onClick={() => navigate("/")}>
           Quote<span>Vote</span>
         </p>
-        {isLoggedInUser && (
+        {isUserLoggedIn && (
           <div onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}>
             <span></span>
             <span></span>

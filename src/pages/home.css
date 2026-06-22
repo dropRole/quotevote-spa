@@ -20,7 +20,7 @@ div#randomQuote > p {
 
 @media screen and (max-width: 480px) {
   div#randomQuote {
-    max-width: 400px;
+    max-width: calc(100% - 60px);
     margin: 120px auto 90px auto;
   }
 

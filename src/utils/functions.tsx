@@ -5,4 +5,12 @@ const depictUserAvatar = (avatar: Blob | string) => {
     return <img src={URL.createObjectURL(avatar)} alt="user avatar" />;
 };
 
-export { depictUserAvatar };
+const isUserLoggedIn = () => {
+  const session = localStorage.getItem("quotevote-session");
+
+  if (session !== null) return true;
+
+  return false;
+};
+
+export { depictUserAvatar, isUserLoggedIn };

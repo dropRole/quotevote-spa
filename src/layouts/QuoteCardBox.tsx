@@ -4,6 +4,7 @@ import "./quote-card-box.css";
 import QuoteCard from "../components/QuoteCard";
 import Button from "../components/Button";
 import { useNavigate } from "react-router";
+import { isUserLoggedIn } from "../utils/functions";
 
 type QuoteCardBoxProps = {
   headline: string;
@@ -17,6 +18,7 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
   searchFor,
 }) => {
   const [quoteLimit, setQuoteLimit] = useState(9);
+  const [quoteLimitReached, setQuoteLimitReached] = useState<boolean>(false);
   const [boxQuoteColumns, setBoxQuoteColumns] = useState<{
     [key in 0 | 1 | 2]: Quote[];
   }>({ 0: [], 1: [], 2: [] });
@@ -38,14 +40,17 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
             written,
             updated,
             totalVotes,
+            votedOn,
           }) => (
             <QuoteCard
               key={id}
+              id={id}
               quote={content}
               author={{ fullname: name + surname, avatar }}
               written={written}
               updated={updated}
               totalVotes={totalVotes}
+              votedOn={votedOn}
             />
           ),
         )}
@@ -61,6 +66,15 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
         quoteLimit,
       );
 
+      if (
+        result instanceof Array &&
+        result.length ===
+          boxQuoteColumns[0].length +
+            boxQuoteColumns[1].length +
+            boxQuoteColumns[2].length
+      )
+        setQuoteLimitReached(true);
+
       if (result instanceof Array) {
         const columns: typeof boxQuoteColumns = { 0: [], 1: [], 2: [] };
 
@@ -75,19 +89,37 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
     };
 
     getFilteredQuotes();
-  }, []);
+  }, [quoteLimit]);
 
-  return (
-    <section className="quote-card-box">
-      <h5>{headline}</h5>
-      <p>{subheadline}</p>
-      <div>{renderQuoteColumns()}</div>
+  const renderQuoteLoadButton = () => {
+    if (isUserLoggedIn() && !quoteLimitReached)
+      return (
+        <Button
+          type="button"
+          text="Load more"
+          className="login"
+          onClick={() => setQuoteLimit(quoteLimit + 3)}
+        />
+      );
+
+    if (isUserLoggedIn() && quoteLimitReached) return <></>;
+
+    return (
       <Button
         type="button"
         text="Login for more"
         className="login"
         onClick={() => navigate("/login")}
       />
+    );
+  };
+
+  return (
+    <section className="quote-card-box">
+      <h5>{headline}</h5>
+      <p>{subheadline}</p>
+      <div>{renderQuoteColumns()}</div>
+      {renderQuoteLoadButton()}
     </section>
   );
 };

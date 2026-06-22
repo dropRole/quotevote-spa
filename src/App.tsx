@@ -6,6 +6,7 @@ import { useState } from "react";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { UserContext, type LoggedInUser } from "./contexts/UserContext";
+import { isUserLoggedIn } from "./utils/functions";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
@@ -18,8 +19,6 @@ function App() {
     useState<boolean>(false);
 
   const [user, setUser] = useState<LoggedInUser | undefined>(undefined);
-
-  const isLoggedInUser = localStorage.getItem("quotevote-session");
 
   return (
     <DialogContext.Provider
@@ -45,8 +44,8 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route index element={<Home />} />
-          {!isLoggedInUser && <Route path="/signup" element={<Signup />} />}
-          {!isLoggedInUser && <Route path="/login" element={<Login />} />}
+          {!isUserLoggedIn() && <Route path="/signup" element={<Signup />} />}
+          {!isUserLoggedIn() && <Route path="/login" element={<Login />} />}
         </Routes>
       </UserContext.Provider>
     </DialogContext.Provider>

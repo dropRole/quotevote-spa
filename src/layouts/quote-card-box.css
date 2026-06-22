@@ -21,7 +21,7 @@ div.quote-box-column {
 }
 
 div.quote-box-column > div.quote-card {
-  flex-grow: 1;
+  flex: 1;
 }
 
 section.quote-card-box > button {
@@ -50,7 +50,7 @@ section.quote-card-box > button {
 @media screen and (min-width: 1024px) {
   section.quote-card-box {
     max-width: 1600px;
-    margin: 60px auto 120px;
+    margin: 60px auto 60px;
     padding: 0 90px;
   }
 
