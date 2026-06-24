@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../contexts/UserContext";
 import UsersService from "../api/quotevote/users.service";
 import defaultAvatar from "../assets/icons/default-avatar.png";
+import { isUserLoggedIn } from "../utils/functions";
 
 const useUserInfo = () => {
   const usersService = useRef(new UsersService());
@@ -10,7 +11,7 @@ const useUserInfo = () => {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      if (!userContext || !userContext?.setUser) return;
+      if (!userContext || !userContext?.setUser || !isUserLoggedIn()) return;
 
       const { data: userInfo } = await usersService.current.getInfo();
 

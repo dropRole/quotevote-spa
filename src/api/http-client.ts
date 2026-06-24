@@ -1,5 +1,6 @@
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios, { AxiosError } from "axios";
+import { isUserLoggedIn } from "../utils/functions";
 
 type APIResponse<T> = {
   status: number;
@@ -8,10 +9,25 @@ type APIResponse<T> = {
 };
 
 export default abstract class HTTPClient {
-  private URL: string;
+  private AXIOS: AxiosInstance;
 
   constructor(url: string) {
-    this.URL = url;
+    this.AXIOS = axios.create({ baseURL: url });
+    this.AXIOS.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        const {
+          request: { withCredentials },
+          response: { status },
+        } = error;
+
+        if (withCredentials && status === 401 && isUserLoggedIn()) {
+          localStorage.removeItem("quotevote-session");
+
+          window.location.replace("/login");
+        }
+      },
+    );
   }
 
   async post<Create, Return = void>(
@@ -22,7 +38,7 @@ export default abstract class HTTPClient {
     let response: AxiosResponse | undefined;
 
     try {
-      response = await axios.post(this.URL + endpoint, data, config);
+      response = await this.AXIOS.post(endpoint, data, config);
     } catch (error) {
       if (error instanceof AxiosError)
         return {
@@ -47,7 +63,7 @@ export default abstract class HTTPClient {
     let response: AxiosResponse | undefined;
 
     try {
-      response = await axios.get(this.URL + endpoint, config);
+      response = await this.AXIOS.get(endpoint, config);
     } catch (error) {
       if (error instanceof AxiosError)
         return {
@@ -73,7 +89,7 @@ export default abstract class HTTPClient {
     let response: AxiosResponse | undefined;
 
     try {
-      response = await axios.patch(this.URL + endpoint, data, config);
+      response = await this.AXIOS.patch(endpoint, data, config);
     } catch (error) {
       if (error instanceof AxiosError)
         return {
