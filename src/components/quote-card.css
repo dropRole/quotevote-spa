@@ -54,6 +54,7 @@ div.quote-card > div:nth-of-type(2) > div > p {
   align-items: center;
   column-gap: 5px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 div.quote-card > div:nth-of-type(2) > div > span {
@@ -63,4 +64,10 @@ div.quote-card > div:nth-of-type(2) > div > span {
 div.quote-card > div:nth-of-type(2) img {
   width: 30px;
   object-fit: cover;
+}
+
+@media screen and (min-width: 1024px) {
+  div.quote-card > div:nth-of-type(2) > div > p {
+    cursor: pointer;
+  }
 }

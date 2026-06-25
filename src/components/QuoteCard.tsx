@@ -6,6 +6,7 @@ import defaultAvatar from "../assets/icons/default-avatar.png";
 import moment from "moment";
 import UsersService from "../api/quotevote/users.service";
 import QuotesService from "../api/quotevote/quotes.service";
+import { useNavigate } from "react-router";
 
 type QuoteCardProps = {
   id: string;
@@ -18,6 +19,7 @@ type QuoteCardProps = {
   updated: string | null;
   totalVotes: string;
   votedOn: "up" | "down" | undefined;
+  username: string;
 };
 
 const QuoteCard: FC<QuoteCardProps> = ({
@@ -28,6 +30,7 @@ const QuoteCard: FC<QuoteCardProps> = ({
   updated,
   totalVotes,
   votedOn,
+  username,
 }) => {
   const [votedOnQuote, setVotedOnQuote] = useState<"up" | "down" | undefined>(
     votedOn,
@@ -35,6 +38,8 @@ const QuoteCard: FC<QuoteCardProps> = ({
   const [quoteTotalVotes, setQuoteTotalVotes] = useState<number>(
     parseInt(totalVotes),
   );
+
+  const navigate = useNavigate();
 
   const [userAvatar, setUserAvatar] = useState<Blob | string>(defaultAvatar);
 
@@ -109,7 +114,13 @@ const QuoteCard: FC<QuoteCardProps> = ({
       <div>
         <p>{quote}</p>
         <div>
-          <p>
+          <p
+            onClick={() =>
+              navigate(
+                `/profile?username=${username}&user_fullname=${fullname}&user_avatar=${avatar}`,
+              )
+            }
+          >
             <img
               src={
                 userAvatar instanceof Blob

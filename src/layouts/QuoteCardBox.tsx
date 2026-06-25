@@ -41,6 +41,7 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
             updated,
             totalVotes,
             votedOn,
+            username,
           }) => (
             <QuoteCard
               key={id}
@@ -51,6 +52,7 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
               updated={updated}
               totalVotes={totalVotes}
               votedOn={votedOn}
+              username={username}
             />
           ),
         )}

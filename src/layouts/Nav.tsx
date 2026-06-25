@@ -76,7 +76,10 @@ const Nav: FC = () => {
         />,
       );
 
-    if (location.pathname === "/" && isUserLoggedIn())
+    if (
+      (location.pathname === "/" || location.pathname === "/profile") &&
+      isUserLoggedIn()
+    )
       items.push([
         <span
           key="settings-item"
@@ -90,10 +93,9 @@ const Nav: FC = () => {
         <div
           key="avatar-item"
           data-user-fullname={`${userContext?.user?.name} ${userContext?.user?.surname}`}
+          onClick={() => navigate("/profile")}
         >
-          {userContext &&
-            userContext.user &&
-            depictUserAvatar(userContext?.user?.avatar)}
+          {userContext.user && depictUserAvatar(userContext?.user?.avatar)}
         </div>,
         <div
           key="plus-item"
@@ -114,7 +116,7 @@ const Nav: FC = () => {
         <p onClick={() => navigate("/")}>
           Quote<span>Vote</span>
         </p>
-        {isUserLoggedIn && (
+        {isUserLoggedIn() && (
           <div onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}>
             <span></span>
             <span></span>

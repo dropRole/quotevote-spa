@@ -56,6 +56,17 @@ export default class QuotesService extends HTTPClient {
     return { success: 0, message };
   }
 
+  async getQuoteKarma(username: string) {
+    const { status, data, message } = await this.get<{
+      quotes: number;
+      karma: number;
+    }>(this.PATH + `/karma/${username}`, { withCredentials: true });
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
   async createQuote(content: string) {
     const { status, message } = await this.post<Pick<Quote, "content">>(
       this.PATH + "/me/myquote",

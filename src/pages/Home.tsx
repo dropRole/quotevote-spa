@@ -60,6 +60,7 @@ const Home: FC = () => {
               updated={randomQuote.updated}
               totalVotes={randomQuote.totalVotes}
               votedOn={randomQuote.votedOn}
+              username={randomQuote.username}
             />
           ) : (
             <QuoteCardSkeleton />

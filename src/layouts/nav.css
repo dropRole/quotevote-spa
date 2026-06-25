@@ -3,6 +3,7 @@ nav {
   margin: 10px auto;
   box-sizing: border-box;
   box-shadow: var(--shadow);
+  background-color: #fff;
 }
 
 nav > div:first-child > p {
@@ -53,7 +54,6 @@ nav > div:nth-child(2) > div > span:first-child {
     left: 1.5%;
     justify-content: space-between;
     padding: 30px 35px;
-    background-color: #fff;
   }
 
   nav > div:first-child {
@@ -149,6 +149,7 @@ nav > div:nth-child(2) > div > span:first-child {
     object-fit: cover;
     box-shadow: var(--shadow);
     border-radius: 50%;
+    cursor: pointer;
   }
 
   nav > div:first-child > div {

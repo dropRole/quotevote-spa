@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { UserContext, type LoggedInUser } from "./contexts/UserContext";
 import { isUserLoggedIn } from "./utils/functions";
+import Profile from "./pages/Profile";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
@@ -44,6 +45,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route index element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
           {!isUserLoggedIn() && <Route path="/signup" element={<Signup />} />}
           {!isUserLoggedIn() && <Route path="/login" element={<Login />} />}
         </Routes>
