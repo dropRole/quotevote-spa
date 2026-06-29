@@ -1,0 +1,119 @@
+import { isUserLoggedIn } from "../../utils/functions";
+import HTTPClient from "../http-client";
+import type { User } from "./users.service";
+
+export type Quote = {
+  id: string;
+  content: string;
+  written: string;
+  updated: string;
+  totalVotes: string;
+  votedOn: "up" | "down" | undefined;
+} & User;
+
+export default class QuotesService extends HTTPClient {
+  private PATH = "/quotes";
+
+  constructor() {
+    const url = import.meta.env.VITE_QUOTEVOTE_API_URL;
+
+    super(url);
+  }
+
+  async getQuotes(
+    searchFor: "mostLiked" | "leastLiked" | "recent",
+    limit: number,
+    author?: string,
+  ) {
+    let query = `?searchFor=${searchFor}&limit=${limit}`;
+
+    if (author) query += `&author=${author}`;
+
+    const { status, data } = await this.get<Quote[]>(this.PATH + query, {
+      withCredentials: isUserLoggedIn() ? true : false,
+    });
+
+    if (status === 200) return data;
+  }
+
+  async getQuote(id: string) {
+    const { status, data, message } = await this.get<Quote>(
+      this.PATH + `/${id}`,
+      { withCredentials: true },
+    );
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
+  async getRandomQuote() {
+    const { status, data, message } = await this.get<Quote>(
+      this.PATH + "/rand/one",
+      { withCredentials: true },
+    );
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
+  async getQuoteKarma(username: string) {
+    const { status, data, message } = await this.get<{
+      quotes: number;
+      karma: number;
+    }>(this.PATH + `/karma/${username}`, { withCredentials: true });
+
+    if (status === 200) return { success: 1, data };
+
+    return { success: 0, message };
+  }
+
+  async createQuote(content: string) {
+    const { status, message } = await this.post<Pick<Quote, "content">>(
+      this.PATH + "/me/myquote",
+      { content },
+      { withCredentials: true },
+    );
+
+    if (status === 201) return { success: 1, message: "Quote was posted" };
+
+    return { success: 0, message };
+  }
+
+  async updateQuote(id: string, content: string) {
+    const { status, message } = await this.patch<Pick<Quote, "content">>(
+      this.PATH + `/me/myquote/${id}`,
+      { content },
+      { withCredentials: true },
+    );
+
+    if (status === 200) return { success: 1, message: "Quote was edited" };
+
+    return { success: 0, message };
+  }
+
+  async voteOnQuote(quoteId: string, vote: "up" | "down") {
+    const { status, message } = await this.patch<{ vote: "up" | "down" }>(
+      this.PATH + `/${quoteId}/vote`,
+      { vote },
+      {
+        withCredentials: true,
+      },
+    );
+
+    if (status === 200) return { success: 1 };
+
+    return { success: 0, message };
+  }
+
+  async unQuote(id: string) {
+    const { status, message } = await this.delete(this.PATH + `/me/${id}`, {
+      withCredentials: true,
+    });
+
+    if (status === 200) return { success: 1, message: "Quote was deleted" };
+
+    return { success: 0, message };
+  }
+}

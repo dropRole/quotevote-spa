@@ -1,0 +1,32 @@
+button#hamburger {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  border: none;
+  background-color: transparent;
+}
+
+button#hamburger > span {
+  width: 30px;
+  height: 3px;
+  background-color: var(--cta-bg);
+  border-radius: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+button#hamburger.toggled > span:first-of-type {
+  transform-origin: 0;
+  rotate: z 45deg;
+  transition: rotate 0.2s ease-in-out;
+}
+
+button#hamburger.toggled > span:nth-of-type(2) {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+button#hamburger.toggled > span:nth-of-type(3) {
+  transform-origin: 0;
+  rotate: z -45deg;
+  transition: rotate 0.2s ease-in-out;
+}

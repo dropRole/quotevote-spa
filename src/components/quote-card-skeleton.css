@@ -1,0 +1,50 @@
+div.quote-card.skeleton {
+  animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+div.quote-card.skeleton > div:first-child > span {
+  width: 15px;
+  height: 15px;
+
+  background-color: #e0e0e0;
+}
+
+div.quote-card.skeleton > div:nth-of-type(2) > p {
+  max-height: 1cap !important;
+  margin: 3px 0;
+  background-color: #e0e0e0;
+}
+
+div.quote-card.skeleton > div:nth-of-type(2) > div > p > span {
+  background-color: #e0e0e0;
+}
+
+div.quote-card.skeleton > div:nth-of-type(2) > div > p > span:first-child {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+div.quote-card.skeleton > div:nth-of-type(2) > div > p > span:nth-child(2) {
+  width: 90px;
+  height: 1cap;
+}
+
+div.quote-card.skeleton > div:nth-of-type(2) > div > span {
+  width: 60px;
+  height: 1cap;
+  margin-top: 30px;
+  background-color: #e0e0e0;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

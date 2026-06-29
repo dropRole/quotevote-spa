@@ -1,0 +1,65 @@
+section.quote-card-box > h5 {
+  margin: 0 0 1cap 0;
+  color: var(--cta-bg);
+  text-align: center;
+}
+
+section.quote-card-box > p {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+section.quote-card-box > div {
+  display: flex;
+}
+
+div.quote-box-column {
+  display: flex;
+  flex-direction: column;
+  justify-items: start;
+  row-gap: 20px;
+}
+
+div.quote-box-column > div.quote-card {
+  flex: 1;
+}
+
+section.quote-card-box > button {
+  display: block;
+  margin: 30px auto;
+}
+
+@media screen and (max-width: 480px) {
+  section.quote-card-box {
+    padding: 0 30px;
+    margin-bottom: 90px;
+  }
+
+  section.quote-card-box > div {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  div.quote-box-column:nth-of-type(2),
+  div.quote-box-column:nth-of-type(3) {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  section.quote-card-box {
+    max-width: 1600px;
+    margin: 60px auto 60px;
+    padding: 0 90px;
+  }
+
+  section.quote-card-box > div {
+    display: flex;
+    column-gap: 20px;
+  }
+
+  div.quote-box-column {
+    width: 33%;
+  }
+}

@@ -1,0 +1,25 @@
+#settingsDialogTabs {
+  margin-top: 15px;
+}
+
+form.settings-form {
+  padding: 15px;
+}
+
+form.settings-form > button {
+  margin-top: 15px;
+}
+
+form.settings-form > img {
+  display: block;
+  width: 64px;
+  object-fit: cover;
+  margin: auto;
+}
+
+@media screen and (min-width: 1024px) {
+  form.settings-form {
+    min-width: 350px;
+    max-width: 350px;
+  }
+}

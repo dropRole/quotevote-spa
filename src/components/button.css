@@ -1,0 +1,31 @@
+button.btn {
+  padding: 8px 16px;
+  box-shadow: var(--shadow);
+  border-radius: 32px;
+  border: none;
+  background-color: transparent;
+  font-family: RalewayRegular;
+  font-weight: 400;
+}
+
+button.btn.login {
+  border: 2px solid var(--cta-bg);
+  color: var(--cta-bg);
+}
+
+button.btn.signup,
+button.btn-submit,
+button.btn-confirm {
+  background-color: var(--cta-bg);
+  color: #fff;
+}
+
+button.btn.w-100 {
+  width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  button.btn.login {
+    cursor: pointer;
+  }
+}

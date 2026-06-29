@@ -1,0 +1,59 @@
+form#signupForm {
+  margin-top: 90px;
+  padding: 60px 30px;
+}
+
+form#signupForm > h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+form#signupForm > h4 > span {
+  color: var(--cta-bg);
+  text-align: center;
+}
+
+form#signupForm > p {
+  text-align: center;
+}
+
+form#signupForm > img {
+  display: block;
+  margin: 10px auto;
+}
+
+form#signupForm > div.input-field:nth-of-type(2),
+form#signupForm > div.input-field:nth-of-type(3) {
+  display: inline-flex;
+  width: 45%;
+}
+
+form#signupForm > div.input-field:nth-of-type(3) {
+  margin-left: 10%;
+}
+
+form#signupForm > button {
+  margin-top: 15px;
+}
+
+form#signupForm > p:last-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+form#signupForm > p:last-child > span:nth-of-type(2) {
+  color: var(--cta-bg);
+}
+
+@media screen and (min-width: 1024px) {
+  form#signupForm {
+    margin: auto;
+    width: 420px;
+  }
+
+  form#signupForm > p:last-child > span:nth-of-type(2) {
+    cursor: pointer;
+  }
+}
