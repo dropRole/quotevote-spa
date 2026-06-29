@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import { UserContext, type LoggedInUser } from "./contexts/UserContext";
 import { isUserLoggedIn } from "./utils/functions";
 import Profile from "./pages/Profile";
+import type { Quote } from "./api/quotevote/quotes.service";
 
 function App() {
   const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
@@ -18,6 +19,22 @@ function App() {
 
   const [quoteCreationDialogOpen, setQuoteCreationDialogOpen] =
     useState<boolean>(false);
+  const [quoteToEdit, setQuoteToEdit] = useState<
+    Pick<Quote, "id" | "content"> | undefined
+  >(undefined);
+  const [afterEditAction, setAfterEditAction] = useState<() => () => void>(
+    () => () => {},
+  );
+
+  const [confirmationDialogOpen, setConfirmationDialogOpen] =
+    useState<boolean>(false);
+  const [confirmationDialogTitle, setConfirmationDialogTitle] =
+    useState<string>("");
+  const [confirmationDialogIssue, setConfirmationDialogIssue] =
+    useState<string>("");
+  const [confirmedAction, setConfirmedAction] = useState<
+    () => () => Promise<void>
+  >(() => async () => {});
 
   const [user, setUser] = useState<LoggedInUser | undefined>(undefined);
 
@@ -39,6 +56,20 @@ function App() {
         quoteCreationDialog: {
           open: quoteCreationDialogOpen,
           setOpen: setQuoteCreationDialogOpen,
+          quoteToEdit,
+          setQuoteToEdit,
+          afterEditAction,
+          setAfterEditAction,
+        },
+        confirmationDialog: {
+          open: confirmationDialogOpen,
+          setOpen: setConfirmationDialogOpen,
+          title: confirmationDialogTitle,
+          setTitle: setConfirmationDialogTitle,
+          issue: confirmationDialogIssue,
+          setIssue: setConfirmationDialogIssue,
+          confirmedAction,
+          setConfirmedAction,
         },
       }}
     >

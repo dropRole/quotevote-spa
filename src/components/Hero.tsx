@@ -15,7 +15,7 @@ const Hero: FC = () => {
 
   useEffect(() => {
     const getMostLikedQuotes = async () => {
-      const result = await quotesService.current.getQuotes("mostLiked", "", 3);
+      const result = await quotesService.current.getQuotes("mostLiked", 3);
 
       if (result instanceof Array) setMostLikedQuotes(result);
     };

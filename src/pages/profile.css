@@ -64,9 +64,23 @@ section#profileReview
   }
 }
 
+@media screen and (max-width: 480px) {
+  section.quote-card-box {
+    margin-top: 60px;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   section#profileReview {
     height: 400px;
-    margin: -30px auto;
+    margin: -30px auto 60px auto;
+  }
+
+  section.quote-card-box {
+    margin-top: 90px;
+  }
+
+  section.quote-card-box:last-of-type {
+    margin-bottom: 90px;
   }
 }

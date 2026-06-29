@@ -1,12 +1,23 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type FC,
+  type SetStateAction,
+} from "react";
 import "./quote-card.css";
 import arrowDown from "../assets/icons/arrow-down.png";
 import arrowUp from "../assets/icons/arrow-up.png";
 import defaultAvatar from "../assets/icons/default-avatar.png";
+import settings from "../assets/icons/settings.png";
 import moment from "moment";
 import UsersService from "../api/quotevote/users.service";
-import QuotesService from "../api/quotevote/quotes.service";
-import { useNavigate } from "react-router";
+import QuotesService, { type Quote } from "../api/quotevote/quotes.service";
+import { useLocation, useNavigate } from "react-router";
+import { UserContext } from "../contexts/UserContext";
+import DialogContext from "../contexts/DialogContext";
 
 type QuoteCardProps = {
   id: string;
@@ -20,6 +31,9 @@ type QuoteCardProps = {
   totalVotes: string;
   votedOn: "up" | "down" | undefined;
   username: string;
+  setEditedOrDeletedQuote?: Dispatch<
+    SetStateAction<Pick<Quote, "id"> | undefined>
+  >;
 };
 
 const QuoteCard: FC<QuoteCardProps> = ({
@@ -31,6 +45,7 @@ const QuoteCard: FC<QuoteCardProps> = ({
   totalVotes,
   votedOn,
   username,
+  setEditedOrDeletedQuote,
 }) => {
   const [votedOnQuote, setVotedOnQuote] = useState<"up" | "down" | undefined>(
     votedOn,
@@ -39,9 +54,16 @@ const QuoteCard: FC<QuoteCardProps> = ({
     parseInt(totalVotes),
   );
 
+  const [userAvatar, setUserAvatar] = useState<Blob | string>(defaultAvatar);
+
+  const userContext = useContext(UserContext);
+
+  const { quoteCreationDialog, confirmationDialog, alertDialog } =
+    useContext(DialogContext);
+
   const navigate = useNavigate();
 
-  const [userAvatar, setUserAvatar] = useState<Blob | string>(defaultAvatar);
+  const location = useLocation();
 
   const usersService = useRef(new UsersService());
 
@@ -96,6 +118,73 @@ const QuoteCard: FC<QuoteCardProps> = ({
       );
   };
 
+  const searchParams = new URLSearchParams(location.search);
+
+  const deleteQuote = async (id: string) => {
+    alertDialog?.setOpen(true);
+
+    const { message } = await quotesService.current.unQuote(id);
+
+    if (message && alertDialog) {
+      alertDialog?.setTitle("Quote deletion");
+
+      alertDialog?.setMessage(message);
+
+      confirmationDialog?.setOpen(false);
+
+      if (setEditedOrDeletedQuote) setEditedOrDeletedQuote(id);
+    }
+  };
+
+  const renderQuoteSettings = () => {
+    if (
+      location.pathname === "/profile" &&
+      (!searchParams.get("username") ||
+        searchParams.get("username") === userContext?.user?.username)
+    )
+      return (
+        <div className="quote-settings">
+          <img
+            src={settings}
+            alt="quote settings"
+            onClick={() => {
+              quoteCreationDialog?.setQuoteToEdit({
+                id,
+                content: quote,
+              });
+
+              if (setEditedOrDeletedQuote)
+                quoteCreationDialog?.setAfterEditAction(() => () => {
+                  setEditedOrDeletedQuote(id);
+
+                  const timeoutId = setTimeout(() => {
+                    setEditedOrDeletedQuote(undefined);
+
+                    clearTimeout(timeoutId);
+                  }, 1000);
+                });
+
+              quoteCreationDialog?.setOpen(true);
+            }}
+          />
+          <div
+            onClick={() => {
+              confirmationDialog?.setTitle("Quote deletion");
+              confirmationDialog?.setIssue(
+                "Are you sure you want to delete the quote?",
+              );
+              confirmationDialog?.setOpen(true);
+              confirmationDialog?.setConfirmedAction(
+                () => () => deleteQuote(id),
+              );
+            }}
+          >
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      );
+  };
   useEffect(() => {
     if (!avatar) return;
 
@@ -135,6 +224,7 @@ const QuoteCard: FC<QuoteCardProps> = ({
           </span>
         </div>
       </div>
+      {renderQuoteSettings()}
     </div>
   );
 };

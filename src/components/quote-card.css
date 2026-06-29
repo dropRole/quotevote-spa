@@ -66,8 +66,54 @@ div.quote-card > div:nth-of-type(2) img {
   object-fit: cover;
 }
 
+div.quote-settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 30px;
+  padding: 0 20px;
+}
+
+div.quote-settings > img {
+  width: 16px;
+  object-fit: cover;
+}
+
+div.quote-settings > div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 9px;
+}
+
+div.quote-settings > div > span {
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  width: 16px;
+  height: 2px;
+  background-color: var(--cta-bg);
+}
+
+div.quote-settings > div > span:first-of-type {
+  rotate: z 45deg;
+}
+
+div.quote-settings > div > span:nth-of-type(2) {
+  rotate: z -45deg;
+}
+
 @media screen and (min-width: 1024px) {
   div.quote-card > div:nth-of-type(2) > div > p {
+    cursor: pointer;
+  }
+
+  div.quote-card > div:nth-of-type(3) > img {
+    cursor: pointer;
+  }
+
+  div.quote-settings > div {
     cursor: pointer;
   }
 }

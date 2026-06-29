@@ -1,5 +1,5 @@
 import { Box, DialogContent, DialogTitle, Modal, ModalDialog } from "@mui/joy";
-import { useContext, useRef, type FC } from "react";
+import { useContext, useEffect, useRef, type FC } from "react";
 import DialogContext from "../contexts/DialogContext";
 import "./quote-creation-dialog.css";
 import Button from "./Button";
@@ -18,15 +18,16 @@ const quoteSchema = z.object({
 type QuoteValidationSchema = z.infer<typeof quoteSchema>;
 
 const QuoteCreationDialog: FC = () => {
+  const { quoteCreationDialog, alertDialog } = useContext(DialogContext);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<QuoteValidationSchema>({
     resolver: zodResolver(quoteSchema),
   });
-
-  const { quoteCreationDialog, alertDialog } = useContext(DialogContext);
 
   const quotesService = useRef(new QuotesService());
 
@@ -35,17 +36,35 @@ const QuoteCreationDialog: FC = () => {
 
     const { message } = await quotesService.current.createQuote(data.content);
 
-    if (
-      message &&
-      alertDialog &&
-      alertDialog.setTitle &&
-      alertDialog.setMessage
-    ) {
+    if (message && alertDialog) {
       alertDialog?.setTitle("Quote post");
 
       alertDialog?.setMessage(message);
     }
   };
+
+  const editQuote = async (data: { content: string }) => {
+    if (!quoteCreationDialog?.quoteToEdit) return;
+
+    alertDialog?.setOpen(true);
+
+    const { message } = await quotesService.current.updateQuote(
+      quoteCreationDialog?.quoteToEdit?.id,
+      data.content,
+    );
+
+    if (message && alertDialog) {
+      alertDialog?.setTitle("Quote edit");
+
+      alertDialog?.setMessage(message);
+
+      quoteCreationDialog?.afterEditAction();
+    }
+  };
+
+  useEffect(() => {
+    reset({ content: quoteCreationDialog?.quoteToEdit?.content });
+  }, [quoteCreationDialog.open]);
 
   return (
     <Modal
@@ -59,7 +78,14 @@ const QuoteCreationDialog: FC = () => {
         </DialogTitle>
         <DialogContent>
           <p>Post and review your quotes.</p>
-          <form id="quoteCreationForm" onSubmit={handleSubmit(postQuote)}>
+          <form
+            id="quoteCreationForm"
+            onSubmit={handleSubmit((data) =>
+              !quoteCreationDialog?.quoteToEdit
+                ? postQuote(data)
+                : editQuote(data),
+            )}
+          >
             <div
               {...(errors?.content?.message && {
                 "data-error": errors.content.message,
@@ -75,8 +101,17 @@ const QuoteCreationDialog: FC = () => {
                 padding: "10px 0",
               }}
             >
-              <Button type="submit" text="Submit" className="btn btn-submit" />
-              <Button type="button" text="Cancel" className="btn " />
+              <Button
+                type="submit"
+                text={quoteCreationDialog?.quoteToEdit ? "Edit" : "Post"}
+                className="btn btn-submit"
+              />
+              <Button
+                type="button"
+                text="Cancel"
+                className="btn"
+                onClick={() => quoteCreationDialog?.setOpen(false)}
+              />
             </Box>
           </form>
         </DialogContent>

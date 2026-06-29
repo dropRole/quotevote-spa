@@ -8,9 +8,12 @@ import defaultAvatar from "../assets/icons/default-avatar.png";
 import { depictUserAvatar } from "../utils/functions";
 import useUserInfo from "../hooks/useUserInfo";
 import UsersService from "../api/quotevote/users.service";
-import QuotesService from "../api/quotevote/quotes.service";
+import QuotesService, { type Quote } from "../api/quotevote/quotes.service";
 import SettingsDialog from "../components/SettingsDialog";
 import QuoteCreationDialog from "../components/QuoteCreationDialog";
+import QuoteCardBox from "../layouts/QuoteCardBox";
+import AlertDialog from "../components/AlertDialog";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 const Profile: FC = () => {
   const [profileAvatar, setProfileAvatar] = useState<Blob | string>(
@@ -19,6 +22,10 @@ const Profile: FC = () => {
   const [profileFullname, setProfileFullname] = useState<string>("");
   const [quoteCount, setQuoteCount] = useState<number>(0);
   const [quoteKarma, setQuoteKarma] = useState<number>(0);
+
+  const [mostLikedQuotes, setMostLikedQuotes] = useState<Quote[]>([]);
+  const [leastLikedQuotes, setLeastLikedQuotes] = useState<Quote[]>([]);
+  const [recentQuotes, setRecentLikedQuotes] = useState<Quote[]>([]);
 
   useUserInfo();
 
@@ -99,8 +106,30 @@ const Profile: FC = () => {
           </div>
         </div>
       </section>
+      <section id="personalQuotes">
+        <QuoteCardBox
+          headline="Most liked"
+          subheadline=""
+          searchFor="mostLiked"
+          author={searchParams.get("username") ?? userContext?.user?.username}
+        />
+        <QuoteCardBox
+          headline="Least liked"
+          subheadline=""
+          searchFor="leastLiked"
+          author={searchParams.get("username") ?? userContext?.user?.username}
+        />
+        <QuoteCardBox
+          headline="Recent"
+          subheadline=""
+          searchFor="recent"
+          author={searchParams.get("username") ?? userContext?.user?.username}
+        />
+      </section>
+      <AlertDialog />
       <SettingsDialog />
       <QuoteCreationDialog />
+      <ConfirmationDialog />
       <Footer />
     </>
   );

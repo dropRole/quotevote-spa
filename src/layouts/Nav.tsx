@@ -15,7 +15,8 @@ const Nav: FC = () => {
 
   const userContext = useContext(UserContext);
 
-  const dialogContext = useContext(DialogContext);
+  const { alertDialog, settingsDialog, quoteCreationDialog } =
+    useContext(DialogContext);
 
   const navigate = useNavigate();
 
@@ -25,19 +26,19 @@ const Nav: FC = () => {
     if (
       !userContext.user ||
       !userContext.setUser ||
-      !dialogContext.alertDialog ||
-      !dialogContext.alertDialog.setTitle ||
-      !dialogContext.alertDialog.setMessage
+      !alertDialog ||
+      !alertDialog.setTitle ||
+      !alertDialog.setMessage
     )
       return;
 
-    dialogContext?.alertDialog?.setOpen(true);
+    alertDialog?.setOpen(true);
 
     const { success, message } = await usersService.current.logout();
 
     if (!success && message) {
-      dialogContext?.alertDialog?.setTitle("Logout");
-      dialogContext?.alertDialog?.setMessage(message);
+      alertDialog?.setTitle("Logout");
+      alertDialog?.setMessage(message);
     }
 
     if (success) {
@@ -47,7 +48,7 @@ const Nav: FC = () => {
 
       navigate("/login");
 
-      dialogContext?.alertDialog?.setOpen(false);
+      alertDialog?.setOpen(false);
     }
   };
 
@@ -81,10 +82,7 @@ const Nav: FC = () => {
       isUserLoggedIn()
     )
       items.push([
-        <span
-          key="settings-item"
-          onClick={() => dialogContext.settingsDialog?.setOpen(true)}
-        >
+        <span key="settings-item" onClick={() => settingsDialog?.setOpen(true)}>
           Settings
         </span>,
         <span key="logout-item" onClick={() => logout()}>
@@ -99,7 +97,10 @@ const Nav: FC = () => {
         </div>,
         <div
           key="plus-item"
-          onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}
+          onClick={() => {
+            quoteCreationDialog?.setQuoteToEdit(undefined);
+            quoteCreationDialog?.setOpen(true);
+          }}
         >
           <span></span>
           <span></span>
@@ -117,7 +118,12 @@ const Nav: FC = () => {
           Quote<span>Vote</span>
         </p>
         {isUserLoggedIn() && (
-          <div onClick={() => dialogContext.quoteCreationDialog?.setOpen(true)}>
+          <div
+            onClick={() => {
+              quoteCreationDialog?.setQuoteToEdit(undefined);
+              quoteCreationDialog?.setOpen(true);
+            }}
+          >
             <span></span>
             <span></span>
           </div>

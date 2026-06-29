@@ -22,10 +22,12 @@ export default class QuotesService extends HTTPClient {
 
   async getQuotes(
     searchFor: "mostLiked" | "leastLiked" | "recent",
-    author: string,
     limit: number,
+    author?: string,
   ) {
-    const query = `?searchFor=${searchFor}&author=${author}&limit=${limit}`;
+    let query = `?searchFor=${searchFor}&limit=${limit}`;
+
+    if (author) query += `&author=${author}`;
 
     const { status, data } = await this.get<Quote[]>(this.PATH + query, {
       withCredentials: isUserLoggedIn() ? true : false,
@@ -79,6 +81,18 @@ export default class QuotesService extends HTTPClient {
     return { success: 0, message };
   }
 
+  async updateQuote(id: string, content: string) {
+    const { status, message } = await this.patch<Pick<Quote, "content">>(
+      this.PATH + `/me/myquote/${id}`,
+      { content },
+      { withCredentials: true },
+    );
+
+    if (status === 200) return { success: 1, message: "Quote was edited" };
+
+    return { success: 0, message };
+  }
+
   async voteOnQuote(quoteId: string, vote: "up" | "down") {
     const { status, message } = await this.patch<{ vote: "up" | "down" }>(
       this.PATH + `/${quoteId}/vote`,
@@ -89,6 +103,16 @@ export default class QuotesService extends HTTPClient {
     );
 
     if (status === 200) return { success: 1 };
+
+    return { success: 0, message };
+  }
+
+  async unQuote(id: string) {
+    const { status, message } = await this.delete(this.PATH + `/me/${id}`, {
+      withCredentials: true,
+    });
+
+    if (status === 200) return { success: 1, message: "Quote was deleted" };
 
     return { success: 0, message };
   }

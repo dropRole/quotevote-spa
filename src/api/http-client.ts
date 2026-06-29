@@ -106,4 +106,26 @@ export default abstract class HTTPClient {
 
     return { status: 500, message: "Internal server error" };
   }
+
+  async delete(endpoint: string, config?: AxiosRequestConfig) {
+    let response: AxiosResponse | undefined;
+
+    try {
+      response = await this.AXIOS.delete(endpoint, config);
+    } catch (error) {
+      if (error instanceof AxiosError)
+        return {
+          status: error.status ?? 500,
+          message: error?.response?.data?.message,
+        };
+    }
+
+    if (response)
+      return {
+        status: response.status,
+        data: response?.data,
+      };
+
+    return { status: 500, message: "Internal server error" };
+  }
 }

@@ -10,18 +10,23 @@ type QuoteCardBoxProps = {
   headline: string;
   subheadline: string;
   searchFor: "mostLiked" | "leastLiked" | "recent";
+  author?: string;
 };
 
 const QuoteCardBox: FC<QuoteCardBoxProps> = ({
   headline,
   subheadline,
   searchFor,
+  author,
 }) => {
   const [quoteLimit, setQuoteLimit] = useState(9);
   const [quoteLimitReached, setQuoteLimitReached] = useState<boolean>(false);
   const [boxQuoteColumns, setBoxQuoteColumns] = useState<{
     [key in 0 | 1 | 2]: Quote[];
   }>({ 0: [], 1: [], 2: [] });
+  const [editedOrDeletedQuote, setEditedOrDeletedQuote] = useState<
+    Pick<Quote, "id"> | undefined
+  >(undefined);
 
   const quotesService = useRef(new QuotesService());
 
@@ -53,6 +58,7 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
               totalVotes={totalVotes}
               votedOn={votedOn}
               username={username}
+              setEditedOrDeletedQuote={setEditedOrDeletedQuote}
             />
           ),
         )}
@@ -64,8 +70,8 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
     const getFilteredQuotes = async () => {
       const result = await quotesService.current.getQuotes(
         searchFor,
-        "",
         quoteLimit,
+        author,
       );
 
       if (
@@ -92,6 +98,30 @@ const QuoteCardBox: FC<QuoteCardBoxProps> = ({
 
     getFilteredQuotes();
   }, [quoteLimit]);
+
+  useEffect(() => {
+    const getFilteredQuotes = async () => {
+      const result = await quotesService.current.getQuotes(
+        searchFor,
+        quoteLimit,
+        author,
+      );
+
+      if (result instanceof Array) {
+        const columns: typeof boxQuoteColumns = { 0: [], 1: [], 2: [] };
+
+        for (let i = 0, j = 0; i < result.length; i++, j++) {
+          if (j === 3) j = 0;
+
+          columns[j as unknown as keyof typeof columns].push(result[i]);
+        }
+
+        setBoxQuoteColumns(columns);
+      }
+    };
+
+    getFilteredQuotes();
+  }, [editedOrDeletedQuote]);
 
   const renderQuoteLoadButton = () => {
     if (isUserLoggedIn() && !quoteLimitReached)
